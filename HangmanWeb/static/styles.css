@@ -1,0 +1,147 @@
+/* Reset général */
+body {
+    background: #24252d;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    padding: 40px;
+}
+
+/* Partie haute : titre et sous-titre */
+.haut-page {
+    margin-bottom: 5vh;
+}
+
+.titre {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 4rem;
+    background: linear-gradient(90deg, #dc3545 0%, #dc3545 25%, #000000 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sous-titre {
+    color: #dc3545;
+    font-family: 'Mynerve', cursive;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-top: -10%;
+}
+
+/* Partie du milieu : img hangman et mot a deviner */
+.container-hangman {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.hangman-image img {
+    max-width: 150px;
+}
+
+/* Mot à deviner */
+.mot_a_deviner {
+    font-family: 'Teachers', sans-serif;
+    color: #ffffff;
+    font-size: 2rem;
+    margin: 20px 0;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Informations complémentaires */
+.text {
+    color: #ffffff;
+    font-family: 'Teachers', sans-serif;
+    font-size: 1rem;
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+/* Formulaire */
+.formulaire {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+
+form input {
+    flex-grow: 1;
+    padding: 12px;
+    font-family: 'Teachers', sans-serif;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+form input:focus {
+    border-color: #dc3545;
+    box-shadow: #dc3545;
+}
+
+form button {
+    padding: 12px 15px;
+    max-width: 150px;
+    text-align: center;
+    font-family: 'Teachers', sans-serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+}
+
+form button:hover {
+    background-color: #6c1a22;
+    transform: translateY(-3px);
+}
+
+/* Message de résultat */
+.result-message {
+    font-family: 'Teachers', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    opacity: 1;
+    text-align: center;
+}
+
+/* Liens */
+a {
+    color: #ffffff;
+    font-family: 'Teachers', sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #dc3545;
+}
