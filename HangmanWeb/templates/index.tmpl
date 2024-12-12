@@ -10,11 +10,18 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Bienvenue dans le jeu du Pendu !</h1>
-    <p>Cliquez sur "Commencer" pour démarrer une nouvelle partie.</p>
-    <form action="/index" method="get">
-        <button type="submit">Commencer</button>
-    </form>
+    <div class="container">
+        <div class="haut-page">
+            <h1 class="titre">Bienvenue</h1>
+            <h3 class="sous-titre">Hangman</h3>
+        </div>
+        <div class="text">
+            <p>Cliquez sur "Commencer" pour démarrer une nouvelle partie.</p>
+        </div>
+        <form action="/start" method="POST">
+            <button type="submit">Commencer</button>
+        </form>
+    </div>
 </body>
 </html>
 

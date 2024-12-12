@@ -18,7 +18,8 @@ var (
 		LettresEssayees map[rune]bool
 		EtapesPendu     []string
 	}
-	mu sync.Mutex
+	mu           sync.Mutex
+	errorMessage string
 )
 
 func initGame() {
@@ -29,22 +30,27 @@ func initGame() {
 	gameState.EssaisRestants = 6
 	gameState.LettresEssayees = make(map[rune]bool)
 	gameState.EtapesPendu = etapes
+	errorMessage = ""
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
 	t := template.Must(template.ParseFiles("templates/" + tmpl + ".tmpl"))
-	fmt.Println(t)
 	t.Execute(w, data)
 }
 
+func keys(m map[rune]bool) []string {
+	var result []string
+	for k := range m {
+		result = append(result, string(k))
+	}
+	return result
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	// Cette route affiche la page de démarrage
-	fmt.Println("hello")
 	renderTemplate(w, "index", nil)
 }
 
 func startHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("bjr")
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -57,14 +63,17 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 		TriedLetters string
 		Errors       int
 		PenduImage   string
+		ErrorMessage string
 	}{
 		Word:         Hangman.AfficherMotRevele(gameState.MotRevele),
 		AttemptsLeft: gameState.EssaisRestants,
 		TriedLetters: strings.Join(keys(gameState.LettresEssayees), ", "),
 		Errors:       erreurs,
 		PenduImage:   gameState.EtapesPendu[6-gameState.EssaisRestants],
+		ErrorMessage: errorMessage,
 	}
 
+	errorMessage = "" // Réinitialiser le message d'erreur après affichage
 	renderTemplate(w, "start", data)
 }
 
@@ -79,13 +88,15 @@ func hangmanHandler(w http.ResponseWriter, r *http.Request) {
 
 	guess := r.FormValue("guess")
 	if len(guess) != 1 || !strings.Contains("abcdefghijklmnopqrstuvwxyz", guess) {
-		http.Error(w, "Entrée invalide", http.StatusBadRequest)
+		errorMessage = "Entrée invalide. Veuillez entrer une seule lettre minuscule."
+		http.Redirect(w, r, "/start", http.StatusSeeOther)
 		return
 	}
 
 	char := rune(guess[0])
 	if gameState.LettresEssayees[char] {
-		http.Error(w, "Lettre déjà essayée", http.StatusBadRequest)
+		errorMessage = "Lettre déjà essayée."
+		http.Redirect(w, r, "/start", http.StatusSeeOther)
 		return
 	}
 
@@ -101,10 +112,10 @@ func hangmanHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if gameState.EssaisRestants == 0 || string(gameState.MotRevele) == gameState.Mot {
-		message := "Félicitations, vous avez gagné !"
+		message := "Félicitations, vous avez gagné ! Le mot était : " + gameState.Mot
 		resultClass := "success"
 		if gameState.EssaisRestants == 0 {
-			message = "Vous avez perdu.\nLe mot était : " + gameState.Mot
+			message = "Vous avez perdu. Le mot était : " + gameState.Mot
 			resultClass = "failure"
 		}
 
@@ -116,26 +127,18 @@ func hangmanHandler(w http.ResponseWriter, r *http.Request) {
 			ResultClass: resultClass,
 		})
 
-		// Initialisation du jeu après la fin de la partie
+		// Réinitialiser le jeu après la fin de la partie
 		initGame()
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
-func keys(m map[rune]bool) []string {
-	var result []string
-	for k := range m {
-		result = append(result, string(k))
-	}
-	return result
+	http.Redirect(w, r, "/start", http.StatusSeeOther)
 }
 
 func main() {
 	initGame()
 
-	// Gestion des routes
+	// Routes
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/start", startHandler)
 	http.HandleFunc("/hangman", hangmanHandler)
@@ -143,7 +146,6 @@ func main() {
 	// Gérer les ressources statiques
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 
-	// Lancer le serveur
-	fmt.Println("Le serveur est en cours d'exécution sur http://localhost:8080")
+	fmt.Println("Serveur démarré sur http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }

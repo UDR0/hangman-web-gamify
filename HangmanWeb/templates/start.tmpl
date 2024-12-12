@@ -8,39 +8,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Teachers&display=swap" rel="stylesheet">
     <title>Hangman Web</title>
     <link rel="stylesheet" href="/static/styles.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Hangman Web</title>
 </head>
 <body>
     <div class="container">
-
-        <!-- Haut de page -->
-        <div class="haut-page">
-            <h1 class="titre">HANGMAN</h1>
-            <h3 class="sous-titre">WEB</h3>
+        <h1 class="titre">HANGMAN</h1>
+        <div class="hangman-image">
+            <img src="/static/hangman/hangman_{{.Errors}}.png" alt="Hangman">
         </div>
 
-        <div class="container-hangman">
-            <!-- Affichage de l'image du hangman -->
-            <div class="hangman-image">
-                <img src="/static/hangman/hangman_{{.Errors}}.png" alt="Hangman">
-            </div>
-
-            <!-- Mot à deviner -->
-            <div class="mot_a_deviner">
-                <p>{{.Word}}</p>
-            </div>
+        <div class="mot_a_deviner">
+            <p>{{.Word}}</p>
         </div>
-
 
         <!-- Formulaire pour essayer une lettre -->
-        <section class="formulaire">
-            <form action="/hangman" method="POST">
-                <div class="input-container">
-                    <input type="text" name="guess" maxlength="1" placeholder="Entrez une lettre" required>
-                    <button type="submit">Essayer</button>
-                </div>
-            </form>
-        </section>
+        <form action="/hangman" method="POST">
+            <input type="text" name="guess" maxlength="1" placeholder="Entrez une lettre" required>
+            <button type="submit">Essayer</button>
+        </form>
 
+        <!-- Affichage du message d'erreur en rouge -->
+        {{if .ErrorMessage}}
+            <p style="color: red;">{{.ErrorMessage}}</p>
+        {{end}}
 
         <!-- Informations supplémentaires -->
         <div class="text">
@@ -49,5 +46,5 @@
         </div>
     </div>
 </body>
-</html>      
+</html>     
 
