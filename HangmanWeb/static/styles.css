@@ -11,6 +11,69 @@ body {
     min-height: 100vh;
 }
 
+/* Style pour la page de démarrage */
+.start-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #24252d; /* Fond sombre pour uniformiser */
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.start-container h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #dc3545 0%, #dc3545 50%, #000000 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.start-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.start-container input[type="text"] {
+    padding: 12px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    border: 2px solid #dc3545;
+    border-radius: 5px;
+    background-color: #1e1f29;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.start-container input[type="text"]:focus {
+    border-color: #ff4757;
+}
+
+.start-container button {
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.start-container button:hover {
+    background-color: #6c1a22;
+    transform: translateY(-3px);
+}
+
 /* Conteneur principal */
 .container {
     width: 90%;
